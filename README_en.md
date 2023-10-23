@@ -10,3 +10,8 @@ This Bash script is primarily designed for querying DNS records and saving the r
 4. **Reading & Processing**: Using a `while` loop, the script reads each line of `domain_list.txt` and performs a `dig` command to query for each domain and its corresponding DNS record type.
 5. **Timestamp & Output**: Before each query, the script captures the current timestamp. The query results, along with the timestamp, domain, and record type, are written into the `result.csv` file.
 This script could be highly useful for information gathering and monitoring, especially when you need to periodically query multiple domains' DNS records and keep historical records.
+
+## How to use
+```
+./dns_ns_checker.sh [nameserver]
+```
