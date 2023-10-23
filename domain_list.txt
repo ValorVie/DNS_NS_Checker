@@ -1,0 +1,3 @@
+example.com,a
+www.example.com,cname
+test.example.com,mx
