@@ -1,3 +1,8 @@
+- [English](README_en.md)
+- [中文](README_zh.md)
+
+---
+
 This Bash script is primarily designed for querying DNS records and saving the results into a CSV file. Here's a brief overview of its various components:
 1. **Environment Setup & Initialization**: The script kicks off by displaying "The script is starting" and checks whether a Name Server has been provided as a command-line argument.
 2. **Parameter & File Initialization**: It sets the Name Server and the output CSV file name (`result.csv`). If `result.csv` does not exist, the script automatically creates it and adds a header.
