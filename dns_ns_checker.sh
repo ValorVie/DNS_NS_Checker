@@ -2,19 +2,24 @@
 
 echo "腳本開始執行。"
 
-# 檢查是否提供了 Name Server
+# 檢查是否提供了 Name Server，如果沒有，則使用預設值 8.8.8.8
 if [ -z "$1" ]; then
-    echo "請提供 Name Server 作為參數。"
-    exit 1
+    echo "未提供 Name Server，將使用預設值 8.8.8.8。"
+    nameserver="8.8.8.8"
+else
+    nameserver=$1
 fi
 
-nameserver=$1
 result_file="result.csv"
 
 # 創建或附加到 result.csv 文件的表頭
 if [ ! -f $result_file ]; then
-    echo "time,domain,record type,result" > $result_file
+    echo "NameServer $nameserver" > $result_file
+    echo "#,time,domain,record type,result" >> $result_file
+else
+    echo "NameServer $nameserver" >> $result_file  
 fi
+
 
 # 檢查 domain_list.txt 是否存在
 if [ ! -f domain_list.txt ]; then
@@ -22,9 +27,8 @@ if [ ! -f domain_list.txt ]; then
     exit 1
 fi
 
-# # 顯示 domain_list.txt 的內容
-# echo "以下是 domain_list.txt 的內容："
-# cat domain_list.txt
+# 初始化序號變數
+counter=1
 
 # 設定 IFS
 IFS=","
@@ -45,5 +49,8 @@ while read -r domain record_type; do
     dig_answer=$(dig @$nameserver $domain $record_type +noquestion +noadditional +nocomments +nocmd +noauthority +nostats)
 
     # 將結果寫入 result.csv
-    echo "$current_time,$domain,$record_type,\"$dig_answer\"" >> $result_file
+    echo "$counter,$current_time,$domain,$record_type,\"$dig_answer\"" >> $result_file
+
+    # 更新序號
+    counter=$((counter + 1))
 done < <(cat domain_list.txt; echo)
